@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Event Manager</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f9; }
+h1 { text-align: center; color: #333; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 12px; border-bottom: 1px solid #ccc; text-align: left; }
+tr.done { text-decoration: line-through; color: gray; background: #e0e0e0; }
+a { text-decoration: none; color: #007BFF; margin-right: 10px; }
+a:hover { text-decoration: underline; }
+button { padding: 5px 10px; }
+.new-event { display: inline-block; margin-bottom: 15px; padding: 10px 15px; background: #28a745; color: white; border-radius: 5px; }
+.new-event:hover { background: #218838; }
+</style>
+</head>
+<body>
+<h1>Event Manager</h1>
+<a class="new-event" href="{{ url_for('new_event') }}">Dodaj nowe wydarzenie</a>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+    {% for event in events %}
+    <tr class="{{ 'done' if event.done else '' }}">
+        <td>{{ event.title }}</td>
+        <td>{{ event.date }}</td>
+        <td>{{ event.location }}</td>
+        <td>{{ event.description }}</td>
+        <td>
+            <a href="{{ url_for('toggle_done', event_id=event.id) }}">{{ 'Undo' if event.done else 'Done' }}</a>
+            <a href="{{ url_for('delete_event', event_id=event.id) }}" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
