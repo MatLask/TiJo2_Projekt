@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///events.db'
@@ -36,6 +37,24 @@ def new_event():
         db.session.commit()
         return redirect(url_for('index'))
     return render_template('new.html')
+
+@app.route('/event/edit/<int:event_id>', methods=['GET', 'POST'])
+def edit_event(event_id):
+    ev = Event.query.get_or_404(event_id)
+    if request.method == 'POST':
+        title = request.form.get('title', '').strip()
+        date = request.form.get('date', '').strip()
+        location = request.form.get('location', '').strip()
+        description = request.form.get('description', '').strip()
+        if not title or not date:
+            return render_template('edit.html', error="Title and date required", form=request.form, event=ev)
+        ev.title = title
+        ev.date = date
+        ev.location = location
+        ev.description = description
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('edit.html', event=ev)
 
 @app.route('/event/delete/<int:event_id>')
 def delete_event(event_id):
