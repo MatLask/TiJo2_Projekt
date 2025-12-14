@@ -32,7 +32,7 @@ h1 { text-align: center; color: #333; }
 <body>
 <h1>Event Manager</h1>
 <div class="nav">
-    <a class="add-btn" href="{{ url_for('new_event') }}"><i class="fa fa-plus"></i> Add Event</a>
+    <a class="add-btn" href="{{ url_for('main.new_event') }}"><i class="fa fa-plus"></i> Add Event</a>
 </div>
 <div class="cards">
 {% for event in events %}
@@ -42,9 +42,9 @@ h1 { text-align: center; color: #333; }
     <p><strong>Location:</strong> {{ event.location }}</p>
     <p>{{ event.description }}</p>
     <div class="actions">
-        <a class="edit" href="{{ url_for('edit_event', event_id=event.id) }}"><i class="fa fa-pen"></i> Edit</a>
-        <a class="done" href="{{ url_for('toggle_done', event_id=event.id) }}"><i class="fa fa-check"></i> {% if event.done %}Undo{% else %}Done{% endif %}</a>
-        <a class="delete" href="{{ url_for('delete_event', event_id=event.id) }}" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
+        <a class="edit" href="{{ url_for('main.edit_event', event_id=event.id) }}"><i class="fa fa-pen"></i> Edit</a>
+        <a class="done" href="{{ url_for('main.toggle_done', event_id=event.id) }}"><i class="fa fa-check"></i> {% if event.done %}Undo{% else %}Done{% endif %}</a>
+        <a class="delete" href="{{ url_for('main.delete_event', event_id=event.id) }}" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
     </div>
 </div>
 {% endfor %}
